@@ -219,9 +219,10 @@ class clsServerThread(threading.Thread):
               #od_show( data )
             if options.capture:
               s_data, data, found_header_end, http_end, url = capture(s_data, data, found_header_end, http_end, "Response", self.handler.url)
-              print 'c_socket http_end: ',http_end
 
             self.handler.c_socket.send(data)
+            if options.verbose:
+                print 'c_socket http_end: ',http_end, ', c_socket:', self.handler.c_socket, ', s_socket:', self.handler.s_socket
     except Exception, e:
       print " ^^^ server exception, ConnSeq=%i\n%s" % (self.handler.ConnSeq, e)
       self.handler.socket_close = True
@@ -303,7 +304,8 @@ class clsProxyHandler(StreamRequestHandler):
               if options.capture:
                 c_data, data, found_header_end, http_end, self.url = capture(c_data, data, found_header_end, http_end, "Request", self.url, self.ConnSeq)
               self.s_socket.send(data)
-              print 's_socket http_end: ',http_end
+              if options.verbose:
+                  print 's_socket http_end: ',http_end, ', c_socket:', self.c_socket, ', s_socket:', self.s_socket
           else:
             pass
       except Exception, e:
