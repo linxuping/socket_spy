@@ -223,6 +223,12 @@ class clsServerThread(threading.Thread):
             self.handler.c_socket.send(data)
             if options.verbose:
                 print 'c_socket http_end: ',http_end, ', c_socket:', self.handler.c_socket, ', s_socket:', self.handler.s_socket
+                #print '>> ',s_data
+                import json
+                jdata = json.dumps(s_data, sort_keys=True)
+                _f = open("json_dump_s_data", "w+")
+                _f.write(jdata)
+                _f.close()
     except Exception, e:
       print " ^^^ server exception, ConnSeq=%i\n%s" % (self.handler.ConnSeq, e)
       self.handler.socket_close = True
